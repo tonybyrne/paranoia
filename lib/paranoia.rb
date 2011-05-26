@@ -9,10 +9,7 @@ module Paranoia
 
   def destroy
     _run_destroy_callbacks
-    self[:deleted_at] ||= Time.now
-    # If the instance has already been persisted, then we need to re-save it to flag it as
-    # destroyed / deleted.  We don't require validation in case it causes the updated to fail.
-    save(:validate => false) if persisted?
+    self.update_attribute(:deleted_at, Time.now) if !deleted? && persisted?
     freeze
   end
   alias :delete :destroy
