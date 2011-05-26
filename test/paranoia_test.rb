@@ -8,7 +8,7 @@ FileUtils.mkdir_p File.dirname(DB_FILE)
 FileUtils.rm_f DB_FILE
 
 ActiveRecord::Base.establish_connection :adapter => 'sqlite3', :database => DB_FILE
-ActiveRecord::Base.connection.execute 'CREATE TABLE paranoid_models (id INTEGER NOT NULL PRIMARY KEY)'
+ActiveRecord::Base.connection.execute 'CREATE TABLE paranoid_models (id INTEGER NOT NULL PRIMARY KEY, deleted_at DATETIME)'
 ActiveRecord::Base.connection.execute 'CREATE TABLE plain_models (id INTEGER NOT NULL PRIMARY KEY)'
 
 class ParanoiaTest < Test::Unit::TestCase
