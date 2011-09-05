@@ -34,13 +34,25 @@ Then run:
 
     rake gems:install
 
+#### Run your migrations for the desired models
+
+    class AddDeletedAtToClient < ActiveRecord::Migration
+      def self.up
+        add_column :clients, :deleted_at, :datetime
+      end
+
+      def self.down
+        remove_column :clients, :deleted_at
+      end
+    end
+    
 ### Usage
 
 #### In your model:
 
     class Client < ActiveRecord::Base
       acts_as_paranoid
-      
+
       ...
     end
 
@@ -59,6 +71,16 @@ If you want a method to be called on destroy, simply provide a _before\_destroy_
 
       ...
     end
+
+You can replace the older acts_as_paranoid methods as follows:
+
+    find_with_deleted(:all)       # => unscoped
+    find_with_deleted(:first)     # => unscoped.first
+    find_with_deleted(id)         # => unscoped.find(id)
+
+    find_only_deleted(:all)       # => only_deleted
+    find_only_deleted(:first)     # => only_deleted.first
+    find_only_deleted(id)         # => only_deleted.find(id)
 
 ## License
 
